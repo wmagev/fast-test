@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { MOVIE_ADD, MOVIE_DELETE } from "../../constants"
 import { DispatchContext } from "../../context/AppContext"
@@ -7,21 +7,12 @@ import media from "../../media"
 const Item = ({ movie }) => {
 
     const dispatch = useContext(DispatchContext)
+    const [selected, setSelected] = useState(false)
     
-    const onItemClick = event => {
-        const self = event.currentTarget
-        let actionType = ""
-        if (self.classList.contains('selected')) {
-            self.classList.remove('selected')
-            actionType = MOVIE_DELETE
-        }
-        else {
-            self.classList.add('selected')
-            actionType = MOVIE_ADD
-        }
-
+    const onItemClick = () => {
+        setSelected(!selected)
         dispatch({
-            type: actionType,
+            type: !selected ? MOVIE_ADD : MOVIE_DELETE,
             payload: movie
         })        
     }
@@ -31,7 +22,7 @@ const Item = ({ movie }) => {
     }
 
     return (
-        <GridItem onClick={ onItemClick } >
+        <GridItem onClick={ onItemClick } data-selected={selected} >
             <Poster src={ movie.Poster } alt={ movie.Title } onError={onPosterError} />
             <AdditionalInfo>
                 <div> { movie.Title } </div>
@@ -50,8 +41,7 @@ const GridItem = styled.div`
     border: 2px solid #ddd;    
     margin: 10px 0;
 
-    ${media.tablet`
-        
+    ${media.tablet`        
         flex: 0 0 28%;
     `};
     ${media.desktop`        
@@ -63,10 +53,10 @@ const GridItem = styled.div`
     &:hover {
         box-shadow: 5px 5px 5px #ccc;
     }
-    &.selected {
-        box-shadow: 4px 4px 5px #ccc;
-        border: 2px solid #000;
-    }    
+    ${props => props['data-selected'] &&
+        "box-shadow: 4px 4px 5px #ccc; border: 2px solid #000;"
+    }
+    
 `
 
 const Poster = styled.img`
