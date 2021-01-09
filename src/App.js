@@ -5,7 +5,8 @@ import {
   Route
 } from "react-router-dom";
 import Layout from "./components/Layout"
-import Search from "./containers/Search"
+import SearchPage from "./containers/Search"
+import ConfirmPage from "./containers/Confirm"
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
       <Router>
         <Switch>
             <Route path="/">
-              <Search />
+              <SearchPage />
+            </Route>
+            <Route path="/">
+              <ConfirmPage />
             </Route>
           </Switch>
       </Router>

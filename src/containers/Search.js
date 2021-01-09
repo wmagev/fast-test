@@ -35,7 +35,7 @@ const Search = () => {
                     value={searchTerm}
                     onChange={onSearchChange}
                 />
-                <Confirm onClick={onConfirmClick}> Confirm </Confirm>
+                <ConfirmButton onClick={onConfirmClick}> Confirm </ConfirmButton>
             </SearchWrapper>
             { loading && 
                 <Loading src="https://carmedia.ru/wa-apps/shop/plugins/kealabs_search/img/loading.gif"/>
@@ -88,7 +88,7 @@ const SearchInput = styled.input`
     font-size: 20px;
 `
 
-const Confirm = styled.button`
+const ConfirmButton = styled.button`
     background: #fff;
     text-transform: uppercase;
     border: none;

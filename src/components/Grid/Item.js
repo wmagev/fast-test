@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react"
 import styled from "styled-components"
 import { MOVIE_ADD, MOVIE_DELETE } from "../../constants"
-import { DispatchContext } from "../../context/AppContext"
+import { StateContext, DispatchContext } from "../../context/AppContext"
+import { isSelected } from "../../utils/movieUtil"
 import media from "../../media"
 
 const Item = ({ movie }) => {
 
     const dispatch = useContext(DispatchContext)
-    const [selected, setSelected] = useState(false)
+    const state = useContext(StateContext)
+    const [selected, setSelected] = useState(isSelected(state, movie.Title))
     
     const onItemClick = () => {
         setSelected(!selected)

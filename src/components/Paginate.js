@@ -37,18 +37,21 @@ const PaginateWrapper = styled.div`
         color: #fff;
         li {
             display: inline-block;
-            padding: 3px;
-            min-width: 21px;            
-            &.selected {
-                border: 1px solid #fff;
-                border-radius: 50%;
-            }            
             &.disabled {
                 color: #aaa;
                 cursor: none;
             }
             &:hover {
                 cursor: pointer;
+            }
+            &.selected a {
+                border: 1px solid #fff;
+                border-radius: 50%;                
+            }
+            a {
+                display: block;
+                min-width: 21px;
+                padding: 3px;
             }
             a:focus {
                 outline: none;
