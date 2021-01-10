@@ -1,6 +1,4 @@
 import React from "react"
-import styled from "styled-components"
-import MediaQuery from 'react-responsive'
 import Poster from "../components/Grid/Poster"
 import { Mobile, Default } from "../media/Tags"
 

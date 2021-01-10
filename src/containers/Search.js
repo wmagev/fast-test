@@ -12,7 +12,7 @@ const Search = () => {
     const [pageNum, setPageNum] = useState(1)
     const state = useContext(StateContext)
 
-    const [loading, response, , error] = useFetch({
+    const [loading, response, , ] = useFetch({
         url: `http://www.omdbapi.com/?apikey=176f1950&s=${searchTerm}&page=${pageNum}`
     }, [searchTerm, pageNum])
 
@@ -47,7 +47,7 @@ const Search = () => {
             { loading && 
                 <Loading src="https://carmedia.ru/wa-apps/shop/plugins/kealabs_search/img/loading.gif"/>
             }
-            { !loading && response && response.Response == "True" ? (
+            { !loading && response && response.Response === "True" ? (
                 <>
                     <Paginate
                         totalResults={response.totalResults}
