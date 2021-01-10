@@ -1,16 +1,18 @@
 import React, { useState, useContext } from "react"
 import styled from "styled-components"
 import { useFetch } from 'react-custom-hook-use-axios'
-import { StateContext } from "../context/AppContext"
+import { StateContext, DispatchContext } from "../context/AppContext"
 import Grid from "../components/Grid"
 import Topbar from "../components/Topbar"
 import Paginate from "../components/Paginate"
 import ConfirmButton from "../components/Button"
+import { SEARCH_TERM_ADD } from "../constants"
 
 const Search = () => {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [pageNum, setPageNum] = useState(1)
-    const state = useContext(StateContext)
+    const { query, movies } = useContext(StateContext)
+    const dispatch = useContext(DispatchContext)
+    const [searchTerm, setSearchTerm] = useState(query)
+    const [pageNum, setPageNum] = useState(1)    
 
     const [loading, response, , ] = useFetch({
         url: `https://www.omdbapi.com/?apikey=176f1950&s=${searchTerm}&page=${pageNum}`
@@ -19,6 +21,11 @@ const Search = () => {
     const onSearchChange = event => {
         setSearchTerm(event.target.value)
         setPageNum(1)
+
+        dispatch({
+            type: SEARCH_TERM_ADD,
+            payload: event.target.value
+        })
     }
 
     const onPageChange = data => {
@@ -31,16 +38,16 @@ const Search = () => {
                 <SearchInput
                     type="text"
                     placeholder="Search Movies By Title"
-                    value={searchTerm}
-                    onChange={onSearchChange}
+                    value={ searchTerm }
+                    onChange={ onSearchChange }
                 />
                 <ConfirmButton 
                     to="/confirm" 
-                    disabled={!state.length} 
+                    disabled={ !movies.length }
                 >
                     Confirm 
                     <Badge>
-                        {state.length}
+                        { movies.length }
                     </Badge>
                 </ConfirmButton>
             </Topbar>
@@ -50,12 +57,12 @@ const Search = () => {
             { !loading && response && response.Response === "True" ? (
                 <>
                     <Paginate
-                        totalResults={response.totalResults}
-                        onPageChange={onPageChange}
-                        curPage={pageNum - 1}
+                        totalResults={ response.totalResults }
+                        onPageChange={ onPageChange }
+                        curPage={ pageNum - 1 }
                     />
                     <Grid
-                        movies={response.Search}
+                        movies={ response.Search }
                     />
                 </>
             )

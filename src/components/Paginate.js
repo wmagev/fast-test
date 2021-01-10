@@ -6,8 +6,7 @@ import { PAGE_LIMIT } from "../constants"
 const Paginate = ({ totalResults, onPageChange, curPage }) => {
 
     const totalPages = Math.ceil(totalResults/PAGE_LIMIT)
-    console.log(totalResults, totalPages)
-
+    
     return (
         <>
             {totalPages > 0 && (

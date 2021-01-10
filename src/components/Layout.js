@@ -5,7 +5,13 @@ import movieReducer from "../reducers/movieReducer"
 
 const Layout = ({children}) => {
 
-    const [state, dispatch] = useReducer(movieReducer, []);
+    const [state, dispatch] = useReducer(
+        movieReducer, 
+        {
+            query: "",
+            movies: []
+        }
+    );
 
     return (        
         <DispatchContext.Provider value={dispatch}>

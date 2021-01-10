@@ -9,15 +9,15 @@ import Poster from "./Poster"
 const Item = ({ movie }) => {
 
     const dispatch = useContext(DispatchContext)
-    const state = useContext(StateContext)
-    const [selected, setSelected] = useState(isSelected(state, movie.Title))
+    const { movies } = useContext(StateContext)
+    const [selected, setSelected] = useState(isSelected(movies, movie.Title))
     
     const onItemClick = () => {
         setSelected(!selected)
         dispatch({
             type: !selected ? MOVIE_ADD : MOVIE_DELETE,
             payload: movie
-        })        
+        })
     }
 
     return (

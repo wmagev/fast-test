@@ -9,7 +9,7 @@ import { Mobile, Default } from "../media/Tags"
 
 
 const Confirm = () => {
-    const state = useContext(StateContext)
+    const { movies } = useContext(StateContext)
 
     return (
         <Layout>
@@ -36,7 +36,7 @@ const Confirm = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    { state.map( (movie, key) => (
+                    { movies.map( (movie, key) => (
                         <RowItem
                             key={key}
                             movie={movie} 
