@@ -3,7 +3,7 @@ import styled from "styled-components"
 import ReactPaginate from "react-paginate"
 import { PAGE_LIMIT } from "../constants"
 
-const Paginate = ({ totalResults, onPageChange, curPage }) => {
+const Paginate = ({ totalResults = 0, onPageChange, curPage = 0 }) => {
 
     const totalPages = Math.ceil(totalResults/PAGE_LIMIT)
     

@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { StateContext, DispatchContext } from "../context/AppContext"
 import movieReducer from "../reducers/movieReducer"
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
 
     const [state, dispatch] = useReducer(
         movieReducer, 
