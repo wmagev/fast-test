@@ -5,14 +5,15 @@ import { PAGE_LIMIT } from "../constants"
 
 const Paginate = ({ totalResults, onPageChange, curPage }) => {
 
-    const totalPages = Math.floor(totalResults/PAGE_LIMIT)
+    const totalPages = Math.ceil(totalResults/PAGE_LIMIT)
+    console.log(totalResults, totalPages)
 
     return (
         <>
             {totalPages > 0 && (
                 <PaginateWrapper>
                     <ReactPaginate
-                        pageCount={totalResults/PAGE_LIMIT}
+                        pageCount={totalPages}
                         onPageChange={onPageChange}
                         pageRangeDisplayed={3}
                         marginPagesDisplayed={1}

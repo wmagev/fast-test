@@ -3,7 +3,9 @@ import styled from "styled-components"
 import { useFetch } from 'react-custom-hook-use-axios'
 import { StateContext } from "../context/AppContext"
 import Grid from "../components/Grid"
-import Paginate from "../components/Paginate";
+import Topbar from "../components/Topbar"
+import Paginate from "../components/Paginate"
+import ConfirmButton from "../components/Button"
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState("Batman")
@@ -16,27 +18,32 @@ const Search = () => {
 
     const onSearchChange = event => {
         setSearchTerm(event.target.value)
+        setPageNum(1)
     }
 
-    const onPageChange = data => {        
+    const onPageChange = data => {
         setPageNum(data.selected + 1)
-    }
-
-    const onConfirmClick = () => {
-        console.log(state)
     }
 
     return (
         <>
-            <SearchWrapper>
+            <Topbar>
                 <SearchInput
                     type="text"
                     placeholder="Search"
                     value={searchTerm}
                     onChange={onSearchChange}
                 />
-                <ConfirmButton onClick={onConfirmClick}> Confirm </ConfirmButton>
-            </SearchWrapper>
+                <ConfirmButton 
+                    to="/confirm" 
+                    disabled={!state.length} 
+                >
+                    Confirm 
+                    <Badge>
+                        {state.length}
+                    </Badge>
+                </ConfirmButton>
+            </Topbar>
             { loading && 
                 <Loading src="https://carmedia.ru/wa-apps/shop/plugins/kealabs_search/img/loading.gif"/>
             }
@@ -68,16 +75,6 @@ const Error = styled.div`
     text-align: center;
 `
 
-const SearchWrapper = styled.div`
-    position: sticky;
-    top: 0;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px 20px;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-`
-
 const Loading = styled.img`
     width: 20%;
     display: block;
@@ -86,19 +83,17 @@ const Loading = styled.img`
 
 const SearchInput = styled.input`
     font-size: 20px;
+    width: 50%;
 `
 
-const ConfirmButton = styled.button`
-    background: #fff;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 4px;
-    padding: 0 20px;
-    font-weight: 700;
-    &:hover {
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-    }    
+const Badge = styled.span`
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: #4CAF50;
+    color: #fff;
 `
 
 export default Search

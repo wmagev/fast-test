@@ -8,7 +8,10 @@ const Grid = ({ movies }) => {
     return (
         <GridContainer>
             { movies.map( (movie, key) => (
-                <GridItem key={ key } movie={movie} />
+                <GridItem 
+                    key={ key } 
+                    movie={ movie } 
+                />
             )) }
         </GridContainer>
     )

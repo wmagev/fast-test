@@ -4,6 +4,7 @@ import { MOVIE_ADD, MOVIE_DELETE } from "../../constants"
 import { StateContext, DispatchContext } from "../../context/AppContext"
 import { isSelected } from "../../utils/movieUtil"
 import media from "../../media"
+import Poster from "./Poster"
 
 const Item = ({ movie }) => {
 
@@ -19,13 +20,12 @@ const Item = ({ movie }) => {
         })        
     }
 
-    const onPosterError = event => {
-        event.target.src = "https://dalk4zrp4jp3q.cloudfront.net/images/mac_YFVkNF/movie_placeholder_big_2x.png"        
-    }
-
     return (
-        <GridItem onClick={ onItemClick } data-selected={selected} >
-            <Poster src={ movie.Poster } alt={ movie.Title } onError={onPosterError} />
+        <GridItem 
+            onClick={ onItemClick } 
+            data-selected={selected} 
+        >
+            <Poster movie={movie} />
             <AdditionalInfo>
                 <div> { movie.Title } </div>
                 <div> { movie.Year } </div>
@@ -35,8 +35,8 @@ const Item = ({ movie }) => {
     )
 }
 
-const GridItem = styled.div`    
-    padding: 10px;    
+const GridItem = styled.div`
+    padding: 10px;
     height: auto;
     transition: 0.2s;
     box-shadow: 5px 5px 15px #ccc;
@@ -59,15 +59,6 @@ const GridItem = styled.div`
         "box-shadow: 4px 4px 5px #ccc; border: 2px solid #000;"
     }
     
-`
-
-const Poster = styled.img`
-    display: block;
-    margin: 0 auto;
-    ${media.tablet`
-        width: 100%;
-        height: 75%;        
-    `};
 `
 
 const AdditionalInfo = styled.div`
