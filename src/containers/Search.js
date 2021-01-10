@@ -8,7 +8,7 @@ import Paginate from "../components/Paginate"
 import ConfirmButton from "../components/Button"
 
 const Search = () => {
-    const [searchTerm, setSearchTerm] = useState("Batman")
+    const [searchTerm, setSearchTerm] = useState("")
     const [pageNum, setPageNum] = useState(1)
     const state = useContext(StateContext)
 
@@ -30,7 +30,7 @@ const Search = () => {
             <Topbar>
                 <SearchInput
                     type="text"
-                    placeholder="Search"
+                    placeholder="Search Movies By Title"
                     value={searchTerm}
                     onChange={onSearchChange}
                 />
