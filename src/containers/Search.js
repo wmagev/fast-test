@@ -13,7 +13,7 @@ const Search = () => {
     const state = useContext(StateContext)
 
     const [loading, response, , ] = useFetch({
-        url: `http://www.omdbapi.com/?apikey=176f1950&s=${searchTerm}&page=${pageNum}`
+        url: `https://www.omdbapi.com/?apikey=176f1950&s=${searchTerm}&page=${pageNum}`
     }, [searchTerm, pageNum])
 
     const onSearchChange = event => {
