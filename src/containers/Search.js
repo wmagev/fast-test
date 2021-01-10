@@ -67,7 +67,7 @@ const Search = () => {
                 </>
             )
             : (
-                <Error>{ response && response.Error }</Error>
+                <Error>{ searchTerm.length > 0 && response && response.Error }</Error>
             )
         }
         </>
