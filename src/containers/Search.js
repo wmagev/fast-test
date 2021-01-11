@@ -23,7 +23,7 @@ const Search = () => {
             type: SEARCH_TERM_ADD,
             payload: searchRef.current.value
         })
-    }, 500)
+    }, 1000)
 
     const dispatchQuery = useCallback( () => {
         // To avoid link warning from exhaustive deps
