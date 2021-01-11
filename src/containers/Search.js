@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useCallback, useRef } from "react"
 import styled from "styled-components"
 import { useFetch } from 'react-custom-hook-use-axios'
 import { StateContext, DispatchContext } from "../context/AppContext"
@@ -7,25 +7,34 @@ import Topbar from "../components/Topbar"
 import Paginate from "../components/Paginate"
 import ConfirmButton from "../components/Button"
 import { SEARCH_TERM_ADD } from "../constants"
+import { throttle } from "../utils/movieUtil"
 
 const Search = () => {
     const { query, movies } = useContext(StateContext)
     const dispatch = useContext(DispatchContext)
-    const [searchTerm, setSearchTerm] = useState(query)
-    const [pageNum, setPageNum] = useState(1)    
+    const [pageNum, setPageNum] = useState(1)
 
     const [loading, response, , ] = useFetch({
-        url: `https://www.omdbapi.com/?apikey=176f1950&s=${searchTerm}&page=${pageNum}`
-    }, [searchTerm, pageNum])
+        url: `https://www.omdbapi.com/?apikey=176f1950&s=${query}&page=${pageNum}`
+    }, [query, pageNum])
 
-    const onSearchChange = event => {
-        setSearchTerm(event.target.value)
-        setPageNum(1)
-
+    const throttledDispatch = throttle(() => {
         dispatch({
             type: SEARCH_TERM_ADD,
-            payload: event.target.value
+            payload: searchRef.current.value
         })
+    }, 500)
+
+    const dispatchQuery = useCallback( () => {
+        // To avoid link warning from exhaustive deps
+        throttledDispatch()
+    }, [throttledDispatch] )
+
+    const searchRef = useRef()
+
+    const onSearchChange = event => {
+        setPageNum(1)
+        dispatchQuery()
     }
 
     const onPageChange = data => {
@@ -38,8 +47,9 @@ const Search = () => {
                 <SearchInput
                     type="text"
                     placeholder="Search Movies By Title"
-                    value={ searchTerm }
-                    onChange={ onSearchChange }
+                    defaultValue={query}                    
+                    onKeyUp={onSearchChange}
+                    ref={searchRef}
                 />
                 <ConfirmButton 
                     to="/confirm" 
@@ -67,7 +77,11 @@ const Search = () => {
                 </>
             )
             : (
-                <Error>{ searchTerm.length > 0 && response && response.Error }</Error>
+                <>
+                { !loading && query.length > 0 && response && response.Error &&
+                    (<Error>{ response.Error }</Error>)
+                }
+                </>
             )
         }
         </>
@@ -75,11 +89,12 @@ const Search = () => {
 }
 
 const Error = styled.div`
-    background: #fff;
+    color: #721c24;
+    background-color: #f8d7da;
     box-shadow: 0 5px 5px #ddd;
     color: #f00;
     padding: 5px;
-    text-align: center;
+    text-align: center;    
 `
 
 const Loading = styled.img`
